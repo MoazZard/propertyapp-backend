@@ -1,0 +1,30 @@
+Example of a DTO in Java (Data Transfer Object)
+Imagine an application with a User entity, but we don't want to expose all
+the details about the user (like password or creation date) when sending data to the frontend.
+(Some data is redundant to the frontend)
+
+
+Entity (Business Model):
+
+@Entity
+public class User {
+    private Long id;
+    private String username;
+    private String email;
+    private String password;
+    private LocalDateTime createdAt;
+
+    // Getters and Setters
+}
+
+
+DTO (Data Transfer Object):
+
+public class UserDTO {
+    private Long id;
+    private String username;
+    private String email;
+
+    // Constructor, Getters, and Setters
+}
+
