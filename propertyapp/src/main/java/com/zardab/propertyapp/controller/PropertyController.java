@@ -16,8 +16,11 @@ import lombok.RequiredArgsConstructor;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.rowset.serial.SerialException;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -39,4 +42,10 @@ public class PropertyController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/property-types")
+    public List<String> getAllPropertyTypes() {
+        return propertyService.getAllPropertyTypes();
+    }
+    
 }

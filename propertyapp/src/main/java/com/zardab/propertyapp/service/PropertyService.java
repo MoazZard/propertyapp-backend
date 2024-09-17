@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
@@ -36,5 +37,9 @@ public class PropertyService implements IPropertyService {
 
         return propertyRepository.save(property);
     }
- 
+
+    @Override
+    public List<String> getAllPropertyTypes() {
+        return propertyRepository.findDistinctPropertyTypes();
+    }
 }

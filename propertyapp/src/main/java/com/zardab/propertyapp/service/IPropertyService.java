@@ -3,6 +3,7 @@ package com.zardab.propertyapp.service;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.io.IOException;
+import java.util.List;
 
 
 import javax.sql.rowset.serial.SerialException;
@@ -14,5 +15,7 @@ import com.zardab.propertyapp.model.Property;
 public interface IPropertyService {
 
     Property addNewProperty(MultipartFile photo, String propertyType, BigDecimal propertyPrice) throws SerialException, SQLException, IOException;
+
+    List<String> getAllPropertyTypes();
 
 }
