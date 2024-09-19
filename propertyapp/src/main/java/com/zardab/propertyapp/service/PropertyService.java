@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
@@ -12,6 +13,7 @@ import javax.sql.rowset.serial.SerialException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.zardab.propertyapp.exception.ResourceNotFoundException;
 import com.zardab.propertyapp.model.Property;
 import com.zardab.propertyapp.repository.PropertyRepository;
 
@@ -39,7 +41,27 @@ public class PropertyService implements IPropertyService {
     }
 
     @Override
+    public List<Property> getAllProperties() {
+        return propertyRepository.findAll();
+    }
+
+    @Override
     public List<String> getAllPropertyTypes() {
         return propertyRepository.findDistinctPropertyTypes();
+    }
+
+    @Override
+    public byte[] getPropertyPhotoById(Long propertyId) throws SQLException { //if property exists, retrieve the photo, convert into byte array and return it
+       Optional<Property> theProperty = propertyRepository.findById(propertyId);
+       if (theProperty.isEmpty()){
+        throw new ResourceNotFoundException("Sorry, Property not found");
+       }
+
+       Blob photoBlob = theProperty.get().getPhoto();
+       if (photoBlob != null){
+        return photoBlob.getBytes(1, (int) photoBlob.length()); // reads blob data and returns it as byte array
+       }
+
+       return null; // return null if no photo
     }
 }

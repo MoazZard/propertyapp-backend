@@ -16,6 +16,10 @@ public interface IPropertyService {
 
     Property addNewProperty(MultipartFile photo, String propertyType, BigDecimal propertyPrice) throws SerialException, SQLException, IOException;
 
+    List<Property> getAllProperties();
+
     List<String> getAllPropertyTypes();
+
+    byte[] getPropertyPhotoById(Long propertyId) throws SQLException;
 
 }

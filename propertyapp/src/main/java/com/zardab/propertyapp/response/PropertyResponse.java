@@ -32,8 +32,8 @@ public class PropertyResponse {
         this.propertyType = propertyType;
         this.propertyPrice = propertyPrice;
         this.isBooked = isBooked;
-        // if photoBytes contains string from database, we convert it into base64 photo to be displayed
-        this.photo = photoBytes != null ? Base64.getEncoder().encodeToString(photoBytes) : null;
+        // if photoBytes contains string from database, we convert it into base64 photo to be displayed in the frontend
+        this.photo = photoBytes != null ? Base64.getEncoder().encodeToString(photoBytes) : null; 
         this.bookings = bookings;
     }
 }
