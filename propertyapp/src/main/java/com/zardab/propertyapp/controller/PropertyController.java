@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Base64;
 
 import javax.sql.rowset.serial.SerialException;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
@@ -53,9 +55,11 @@ public class PropertyController { // these are all different end points in the b
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/property")
+    @GetMapping("/all-property")
     public ResponseEntity<List<PropertyResponse>> getAllProperties() throws SQLException {
 
+        // GETS ALL PROPERTIES, AND FOR EACH PROPERTY IT CRAFTS THE PROPERTY RESPONSE
+        // THEN PUTS IT INTO RESPONSES
         List<Property> allProperties = propertyService.getAllProperties();
         List<PropertyResponse> responses = new ArrayList<>();
 
@@ -65,8 +69,8 @@ public class PropertyController { // these are all different end points in the b
                                                                                         // property in database
 
             if (photoBytes != null && photoBytes.length > 0) {
-                String base64Photo = Base64.getEncoder().encodeToString(photoBytes); // turn bytes into base64 using
-                                                                                     // this method
+                String base64Photo = Base64.getEncoder().encodeToString(photoBytes); // turn bytes into base64
+
                 PropertyResponse propertyResponse = getPropertyResponse(property); // booking history of each property
                 propertyResponse.setPhoto(base64Photo);
                 responses.add(propertyResponse);
@@ -84,12 +88,17 @@ public class PropertyController { // these are all different end points in the b
     /* Helper functions */
 
     private PropertyResponse getPropertyResponse(Property property) {
-        List<BookedProperty> bookings = getAllBookingsByPropertyId(property.getId());
-        List<BookingResponse> bookingInfo = bookings // convert bookedProperty to bookingResponse
-                .stream()
-                .map(booking -> new BookingResponse(booking.getBookingId(), booking.getCheckInDate(),
-                        booking.getCheckOutDate(), booking.getBookingConfirmationCode()))
-                .toList(); // "booking" is one from bookings
+        // List<BookedProperty> bookings =
+        // bookingService.getAllBookingsByPropertyId(property.getId());
+        /*
+         * List<BookingResponse> bookingInfo = bookings // convert bookedProperty to
+         * bookingResponse (A list of bookingresponses from corresponding bookings)
+         * .stream()
+         * .map(booking -> new BookingResponse(booking.getBookingId(),
+         * booking.getCheckInDate(),
+         * booking.getCheckOutDate(), booking.getBookingConfirmationCode()))
+         * .toList(); // "booking" is one from bookings
+         */
 
         // Convert into photoBytes from photoBlob
         byte[] photoBytes = null;
@@ -105,11 +114,6 @@ public class PropertyController { // these are all different end points in the b
         return new PropertyResponse(property.getId(), property.getPropertyType(),
                 property.getPropertyPrice(),
                 property.getIsBooked(),
-                photoBytes,
-                bookingInfo);
-    }
-
-    private List<BookedProperty> getAllBookingsByPropertyId(Long propertyId) {
-        return bookingService.getAllBookingsByPropertyId(propertyId);
+                photoBytes);
     }
 }
