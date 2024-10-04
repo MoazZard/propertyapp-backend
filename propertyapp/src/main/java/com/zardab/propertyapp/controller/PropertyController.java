@@ -28,7 +28,6 @@ import java.util.Base64;
 
 import javax.sql.rowset.serial.SerialException;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
@@ -101,6 +100,8 @@ public class PropertyController { // these are all different end points in the b
          */
 
         // Convert into photoBytes from photoBlob
+
+        /*
         byte[] photoBytes = null;
         Blob photoBlob = property.getPhoto();
         if (photoBlob != null) {
@@ -110,10 +111,11 @@ public class PropertyController { // these are all different end points in the b
                 throw new PhotoRetrievalException("Error retrieving photo");
             }
         }
+        */
 
         return new PropertyResponse(property.getId(), property.getPropertyType(),
                 property.getPropertyPrice(),
                 property.getIsBooked(),
-                photoBytes);
+                null);
     }
 }
