@@ -1,6 +1,7 @@
 package com.zardab.propertyapp.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,6 +56,7 @@ public class PropertyController { // these are all different end points in the b
     }
 
     @GetMapping("/all-property")
+    @Transactional
     public ResponseEntity<List<PropertyResponse>> getAllProperties() throws SQLException {
 
         // GETS ALL PROPERTIES, AND FOR EACH PROPERTY IT CRAFTS THE PROPERTY RESPONSE
@@ -101,21 +103,19 @@ public class PropertyController { // these are all different end points in the b
 
         // Convert into photoBytes from photoBlob
 
-        /*
         byte[] photoBytes = null;
         Blob photoBlob = property.getPhoto();
         if (photoBlob != null) {
             try {
                 photoBytes = photoBlob.getBytes(1, (int) photoBlob.length());
             } catch (SQLException e) {
-                throw new PhotoRetrievalException("Error retrieving photo");
+                throw new PhotoRetrievalException("Error retrieving photo" + e.getMessage());
             }
         }
-        */
 
         return new PropertyResponse(property.getId(), property.getPropertyType(),
                 property.getPropertyPrice(),
                 property.getIsBooked(),
-                null);
+                photoBytes);
     }
 }
