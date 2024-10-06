@@ -57,6 +57,17 @@ public class PropertyService implements IPropertyService {
     }
 
     @Override
+    public void deleteProperty(Long propertyId) {
+        Optional<Property> propertyToBeDeleted = propertyRepository.findById(propertyId);
+        if (propertyToBeDeleted.isEmpty()) {
+            throw new ResourceNotFoundException("Sorry, Property to be deleted not found");
+        }
+        propertyRepository.deleteById(propertyId);
+    }
+
+    // Other business logic
+
+    @Override
     @Transactional
     public byte[] getPropertyPhotoById(Long propertyId) throws SQLException { // if property exists, retrieve the photo,
                                                                               // convert into byte array and return it

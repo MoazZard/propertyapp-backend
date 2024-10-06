@@ -29,7 +29,9 @@ import java.util.Base64;
 
 import javax.sql.rowset.serial.SerialException;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequiredArgsConstructor
@@ -81,9 +83,15 @@ public class PropertyController { // these are all different end points in the b
         return ResponseEntity.ok(responses);
     }
 
+
     @GetMapping("/property-types")
     public List<String> getAllPropertyTypes() {
         return propertyService.getAllPropertyTypes();
+    }
+
+    @DeleteMapping(value = {"/property-delete/{propertyId}"})
+    public void deleteProperty(@PathVariable Long propertyId) {
+        propertyService.deleteProperty(propertyId);
     }
 
     /* Helper functions */
