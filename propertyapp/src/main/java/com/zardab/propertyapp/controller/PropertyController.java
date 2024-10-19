@@ -42,7 +42,7 @@ public class PropertyController { // these are all different end points in the b
                                                     // propertyservice dependency into class
     private final BookedPropertyService bookingService;
 
-    // Adding into the database
+    // Adding into the postgres database
     @PostMapping("/add/new-property")
     public ResponseEntity<PropertyResponse> addNewProperty(
             @RequestParam("photo") MultipartFile photo,
